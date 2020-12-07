@@ -1,9 +1,9 @@
-import Apicall from './Apicall';
+import ApiCall from './Apicall';
 import './App.css';
 
 function App() {
   return (
-    <Apicall/>
+    <ApiCall/>
   );
 }
 
