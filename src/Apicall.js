@@ -1,19 +1,33 @@
 import React, {useState,useEffect} from 'react';
-import {Row, Col} from 'antd';
+import {Row, Col, Popconfirm,message} from 'antd';
 import Table from "antd/lib/table";
 import axios from 'axios';
 
 const ApiCall = () => {
-    const [empList,setEmpList] =useState([{
-        id:"",
-        employee_name:"",
-        employee_salary:"",
-        employee_age:""
-    }]);
+    const text1 = 'Are you sure to Delete this task?';
+
+    // const [data,setData] = useState([]);
+    const [empList,setEmpList] =useState([]);
 
     useEffect(()=>{
-       axios.get(`http://dummy.restapiexample.com/api/v1/employees`).then(response => setEmpList(response.data.data || []));
+        listDelete();
     })
+
+    const listDelete =()=>{
+        axios.get(`http://dummy.restapiexample.com/api/v1/employees`).then(response => setEmpList(response.data.data || [])).catch(error => console.log(error));
+
+    }
+ const onDelete = (record) =>{
+
+     axios.delete(`http://dummy.restapiexample.com/api/v1/delete/ ${record}`).then(response => {message.success(response.data.status)}).catch(error => console.log(error));
+     listDelete();
+ }
+ const onEdit = (record) =>{
+        axios.put(`\thttp://dummy.restapiexample.com/api/v1/update/${record}`).then(response => {
+            message.success(response.data.status)
+        });
+        listDelete();
+ }
     const columns = [{
         title: "id",
         dataIndex: 'id',
@@ -33,7 +47,28 @@ const ApiCall = () => {
             title: "employee_age",
             dataIndex: "employee_age",
             key: "employee_age",
-        }
+        },
+        {
+            title: 'Action',
+            render: (text, record) => (
+                <div>
+                    <button className="btn btn-outline-primary btn-mini" onClick={() => {
+                        onEdit(record)
+                    }}>
+                        Edit
+                    </button>
+                    &nbsp; &nbsp;
+
+                    <Popconfirm placement="rightTop" title={text1} onConfirm={() => {
+                        onDelete(record)
+                    }} okText="Yes" cancelText="No">
+                        <button className="btn btn-outline-danger btn-mini">
+                            Delete
+                        </button>
+                    </Popconfirm>
+                </div>
+            )
+        },
     ];
 
 
