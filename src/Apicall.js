@@ -6,40 +6,43 @@ import {UserOutlined} from "@ant-design/icons";
 
 const ApiCall = () => {
     const text1 = 'Are you sure to Delete this task?';
-    const [userDetail,setUserDetail] = useState([]);
-    const [empList, setEmpList] = useState([]);
-
+    const [userDetail,setUserDetail] = useState({
+        id:"",
+        employee_name:"",
+        employee_salary:"",
+        employee_age:""
+    });
+    const [data,setData] = useState([]);
     useEffect(() => {
         listDelete();
     })
 
     const handleChange = (e) => {
         const {name, value} = e.target;
-        setUserDetail({...userDetail, [name]: value})
+        setData({...data, [name]: value})
     }
-
-    const  onSubmit=()=>{
-
-        axios.post('http://dummy.restapiexample.com/api/v1/create/').then(response => {message.success(response.data.message)});
-
-    }
+    //
+    // const  onSubmit=()=>{
+    //     axios.post('http://dummy.restapiexample.com/api/v1/create/').then(response => {message.success(response.data.message)});
+    // }
 
     const listDelete = () => {
-        axios.get(`http://dummy.restapiexample.com/api/v1/employees`).then(response => setEmpList(response.data.data || [])).catch(error => console.log(error));
+        axios.get(`http://dummy.restapiexample.com/api/v1/employees`).then(response => setData(response.data.data || [])).catch(error => console.log(error));
 
     }
-    const onDelete = (record) => {
-
-        axios.remove(`http://dummy.restapiexample.com/api/v1/delete/ ${record}`).then(response => {
-            message.success(response.data.status)
-        }).catch(error => console.log(error));
-        listDelete();
-    }
-    const onEdit = (record) => {
-
-        axios.put(`http://dummy.restapiexample.com/api/v1/update/${record.id}`).then(response => {
-            message.success(response.data.status)
-        });
+    // const onDelete = (record) => {
+    //     axios.remove(`http://dummy.restapiexample.com/api/v1/delete/ ${record}`).then(response => {
+    //         message.success(response.data.status)
+    //     }).catch(error => console.log(error));
+    //     listDelete();
+    // }
+    const onEdit = (id) => {
+        debugger
+        const findIndex = data.find(record => record.id === (id));
+        setUserDetail(findIndex)
+        // axios.put(`http://dummy.restapiexample.com/api/v1/update/${record.id}`).then(response => {
+        //     message.success(response.data.status)
+        // });
         listDelete();
     }
 
@@ -69,19 +72,19 @@ const ApiCall = () => {
             render: (text, record) => (
                 <div>
                     <button className="btn btn-outline-primary btn-mini" onClick={() => {
-                        onEdit(record)
+                        onEdit(record.id)
                     }}>
                         Edit
                     </button>
                     &nbsp; &nbsp;
 
-                    <Popconfirm placement="rightTop" title={text1} onConfirm={() => {
-                        onDelete(record)
-                    }} okText="Yes" cancelText="No">
-                        <button className="btn btn-outline-danger btn-mini">
-                            Delete
-                        </button>
-                    </Popconfirm>
+                    {/*<Popconfirm placement="rightTop" title={text1} onConfirm={() => {*/}
+                    {/*    onDelete(record)*/}
+                    {/*}} okText="Yes" cancelText="No">*/}
+                    {/*    <button className="btn btn-outline-danger btn-mini">*/}
+                    {/*        Delete*/}
+                    {/*    </button>*/}
+                    {/*</Popconfirm>*/}
                 </div>
             )
         },
@@ -116,11 +119,11 @@ const ApiCall = () => {
                             </Form.Item>
 
 
-                            <Form.Item>
-                                <Button  className="btn-create-account" Type="submit" onClick={onSubmit}>
-                                    Create Account
-                                </Button>
-                            </Form.Item>
+                            {/*<Form.Item>*/}
+                            {/*    <Button  className="btn-create-account" Type="submit" onClick={onSubmit}>*/}
+                            {/*        Create Account*/}
+                            {/*    </Button>*/}
+                            {/*</Form.Item>*/}
                         </Form>
                     </Card>
                 </Col>
@@ -132,7 +135,7 @@ const ApiCall = () => {
                 <Col span={16} className="mt-3">
                     <Table
                         columns={columns}
-                        dataSource={empList}
+                        dataSource={data}
                         pagination={{pageSize: 5}}
                     />
 
