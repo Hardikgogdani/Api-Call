@@ -1,33 +1,49 @@
-import React, {useState,useEffect} from 'react';
-import {Row, Col, Popconfirm,message} from 'antd';
+import React, {useState, useEffect} from 'react';
+import {Row, Col, Popconfirm, message, Card, Form, Input, Button} from 'antd';
 import Table from "antd/lib/table";
 import axios from 'axios';
+import {UserOutlined} from "@ant-design/icons";
 
 const ApiCall = () => {
     const text1 = 'Are you sure to Delete this task?';
+    const [userDetail,setUserDetail] = useState([]);
+    const [empList, setEmpList] = useState([]);
 
-    // const [data,setData] = useState([]);
-    const [empList,setEmpList] =useState([]);
-
-    useEffect(()=>{
+    useEffect(() => {
         listDelete();
     })
 
-    const listDelete =()=>{
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+        setUserDetail({...userDetail, [name]: value})
+    }
+
+    const  onSubmit=()=>{
+
+        axios.post('http://dummy.restapiexample.com/api/v1/create/').then(response => {message.success(response.data.message)});
+
+    }
+
+    const listDelete = () => {
         axios.get(`http://dummy.restapiexample.com/api/v1/employees`).then(response => setEmpList(response.data.data || [])).catch(error => console.log(error));
 
     }
- const onDelete = (record) =>{
+    const onDelete = (record) => {
 
-     axios.delete(`http://dummy.restapiexample.com/api/v1/delete/ ${record}`).then(response => {message.success(response.data.status)}).catch(error => console.log(error));
-     listDelete();
- }
- const onEdit = (record) =>{
-        axios.put(`\thttp://dummy.restapiexample.com/api/v1/update/${record}`).then(response => {
+        axios.remove(`http://dummy.restapiexample.com/api/v1/delete/ ${record}`).then(response => {
+            message.success(response.data.status)
+        }).catch(error => console.log(error));
+        listDelete();
+    }
+    const onEdit = (record) => {
+
+        axios.put(`http://dummy.restapiexample.com/api/v1/update/${record.id}`).then(response => {
             message.success(response.data.status)
         });
         listDelete();
- }
+    }
+
+
     const columns = [{
         title: "id",
         dataIndex: 'id',
@@ -72,22 +88,60 @@ const ApiCall = () => {
     ];
 
 
-return (
-    <>
-        <Row>
-            <Col span={4}/>
-            <Col span={16} className="mt-3">
-                <Table
+    return (
+        <>
+            <Row >
+                <Col span={8}/>
+                <Col span={8}>
+                    <Card>
+                        <h2 style={{textAlign: "center"}}>Registration Form</h2>
+                        <p style={{textAlign: "center"}}>Creat Your Account</p><br/>
+                        <Form>
+                            <Form.Item>
+                                <Input placeholder="Enter Your firstname" name="employee_name" value={userDetail.employee_name}
+                                       onChange={handleChange} addonBefore={(<UserOutlined/>)}/>
+
+                            </Form.Item>
+
+                            <Form.Item>
+                                <Input placeholder="Enter Your salary" name="employee_salary" value={userDetail.employee_salary}
+                                       onChange={handleChange} addonBefore={(<UserOutlined/>)}/>
+
+                            </Form.Item>
+
+                            <Form.Item>
+                                Age <Input placeholder="Enter Your age" name="employee_age" value={userDetail.employee_age}
+                                           onChange={handleChange} />
+
+                            </Form.Item>
+
+
+                            <Form.Item>
+                                <Button  className="btn-create-account" Type="submit" onClick={onSubmit}>
+                                    Create Account
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    </Card>
+                </Col>
+                <Col span={8}/>
+            </Row>
+            <Row>
+
+                <Col span={4}/>
+                <Col span={16} className="mt-3">
+                    <Table
                         columns={columns}
                         dataSource={empList}
                         pagination={{pageSize: 5}}
                     />
 
 
-            </Col>
-        </Row>
-    </>
-);
+                </Col>
+
+            </Row>
+        </>
+    );
 }
 
 export default ApiCall;
