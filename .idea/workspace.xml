@@ -36,7 +36,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../route form" />
+    <property name="last_opened_file_path" value="$USER_HOME$/node-easy-notes-app" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -56,7 +56,10 @@
       <updated>1607336096091</updated>
       <workItem from="1607336101315" duration="11593000" />
       <workItem from="1607402351589" duration="9857000" />
-      <workItem from="1607416634298" duration="3671000" />
+      <workItem from="1607416634298" duration="4553000" />
+      <workItem from="1607428715826" duration="52000" />
+      <workItem from="1607429100212" duration="15000" />
+      <workItem from="1607429128952" duration="25000" />
     </task>
     <task id="LOCAL-00001" summary="change">
       <created>1607337808808</created>
@@ -93,7 +96,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607418952998</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="change">
+      <created>1607420623284</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1607420623284</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
