@@ -49,8 +49,6 @@ const ApiCall = () => {
             editedId = id;
             const findIndex = data.find(record => record._id === (id));
             setUserDetail(findIndex)
-            listDelete();
-
         }
 
 
